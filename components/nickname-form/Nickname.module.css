@@ -1,0 +1,22 @@
+.container {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #00000079;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 100;
+
+}
+
+.card {
+  width: 300px;
+  height: 800px;
+  background-color: antiquewhite;
+}

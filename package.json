@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.8",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
     "apollo3-cache-persist": "^0.12.1",
     "graphql": "^15.5.1",
     "next": "11.1.0",

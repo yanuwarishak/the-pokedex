@@ -4,21 +4,8 @@ import styles from '../styles/Home.module.css'
 import Link from "next/link"
 
 //GraphQL
-import { gql } from "@apollo/client";
 import client from "../apollo-client";
-
-const GET_POKEMONS = gql`
-  query pokemons($limit: Int, $offset: Int) {
-    pokemons(limit: $limit, offset: $offset) {
-      results {
-        id
-        url
-        name
-        image
-      }
-    }
-  }
-`;
+import { GET_POKEMONS } from '../graphql/query';
 
 export default function Home({ pokemons }) {
   return (
@@ -43,8 +30,8 @@ export default function Home({ pokemons }) {
         <div className={styles.grid}>
           {
             pokemons.map(({ id, name, url, image }) => (
-              <Link href={`/pokemon/${name}`}>
-                <div key={id} className={styles.card}>
+              <Link key={id} href={`/pokemon/${name}`}>
+                <div className={styles.card}>
                   <Image src={image} width={150} height={150} />
                   <h2 className={styles.name}>{name}</h2>
                 </div>

@@ -2,32 +2,21 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 import Link from "next/link";
 
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { GET_POKEMONS } from "../../graphql/query";
 import Image from "next/image";
 
-import styles from "../../styles/Card.module.css";
-import pokemon from "../../pages/pokemon/[id]";
-
-const GET_POKEMONS_LIST = gql`
-  query getPokemonsList($limit: Int, $offset: Int) {
-    pokemons(limit: $limit, offset: $offset) {
-      results {
-        id
-        name
-        image
-      }
-    }
-  }
-`;
+import styles from "./Card.module.css";
 
 const PokemonsList = () => {
-  const [offset, setOffset] = useState(0);
-  const [pokemons, setPokemons] = useState([]);
-  console.log(pokemons);
-
-  const { data, loading, error } = useQuery(GET_POKEMONS_LIST, {
-    variables: { limit: 20, offset: offset },
+  const { data, loading, error, fetchMore } = useQuery(GET_POKEMONS, {
+    variables: { limit: 20, offset: 0 },
   });
+
+  let nextOffset = 0;
+  if (data) {
+    nextOffset = data.pokemons.nextOffset;
+  }
 
   // Infinite scroll config
   const observer = useRef();
@@ -37,24 +26,29 @@ const PokemonsList = () => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver(
         (entries) => {
-          if (entries[0].isIntersecting && offset <= 1160) {
-            setOffset((prev) => prev + 20);
+          if (entries[0].isIntersecting && pokemons.length <= 1160) {
+            fetchMore({
+              variables: { limit: 20, offset: nextOffset },
+            });
           }
         },
         { threshold: 1 }
       );
       if (node) observer.current.observe(node);
     },
-    [loading]
+    [loading, nextOffset]
   );
 
-  useEffect(() => {
-    if (!loading && data) {
-      setPokemons((prevList) => [...prevList, ...data.pokemons.results]);
-    } else {
-      setPokemons((prevList) => [...prevList]);
-    }
-  }, [offset, data]);
+  // useEffect(() => {
+  //   if (!loading && data) {
+  //     setPokemons((prevList) => [...prevList, ...data.pokemons.results]);
+  //   } else {
+  //     setPokemons((prevList) => [...prevList]);
+  //   }
+  // }, [offset, data]);
+
+  if (loading) return null;
+  const pokemons = data.pokemons.results;
 
   return (
     <div className={styles.container}>
@@ -78,7 +72,7 @@ const PokemonsList = () => {
               <Image src={image} width={140} height={140} />
               <h2 className={styles.name}>{name}</h2>
               <p className={styles.catchText}>
-                You own 0 <span className={styles.name}>{name}!</span>
+                You own 0 <span className={styles.name}>{name}</span>
               </p>
               <Link href={`/pokemon/${name}`}>
                 <button className={styles.button}>Detail</button>

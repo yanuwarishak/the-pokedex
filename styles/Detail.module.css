@@ -1,0 +1,24 @@
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sprites {
+  background-color: beige;
+  border-radius: 50%;
+  margin: 10px 0px;
+}
+
+.link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}
+
+.moves {
+  display: grid;
+  grid: 1fr 1fr 1fr 1fr;
+}
