@@ -16,7 +16,7 @@ export default function Home({ pokemons }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <div className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a>The Pokedex!</a>
         </h1>
@@ -24,9 +24,6 @@ export default function Home({ pokemons }) {
         <p className={styles.description}>
           Here's our Pokemons of the Day
         </p>
-        <h4 className={styles.viewText}>
-          <Link href="/pokemons">Find out all the Pokemons &rarr;</Link>
-        </h4>
         <div className={styles.grid}>
           {
             pokemons.map(({ id, name, url, image }) => (
@@ -39,8 +36,11 @@ export default function Home({ pokemons }) {
             ))
           }
         </div>
+        <h4 className={styles.viewText}>
+          <Link href="/pokemons">Find out all the Pokemons &rarr;</Link>
+        </h4>
 
-      </main>
+      </div>
     </div>
   )
 }

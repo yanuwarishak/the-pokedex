@@ -1,14 +1,13 @@
-import React from "react";
-import styles from "../../styles/Layout.module.css";
 import Navbar from "../navbar/Navbar";
+import { LayoutContainer, ContentWrapper } from "./Layout.styles";
 
 const Layout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div className={styles.container}>
-        <main className={styles.main}>{children}</main>
-      </div>
+      <LayoutContainer>
+        <ContentWrapper>{children}</ContentWrapper>
+      </LayoutContainer>
     </>
   );
 };

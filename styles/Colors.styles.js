@@ -1,3 +1,10 @@
+export const color = {
+    primary: "#0070f3",
+    secondary: "#FC4A1A",
+    onPrimary: "#F7B733",
+    onSurface: "#DFDCE3"
+}
+
 export const typeColors = {
     normal: "#A8A77A",
     fire: "#EE8130",

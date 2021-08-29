@@ -1,12 +1,8 @@
+// This is client configuration for server-side rendering
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-// import { persistCache, LocalStorageWrapper } from "apollo3-cache-persist";
-
-// await persistCache({
-//     cache,
-//     storage: new LocalStorageWrapper(window.localStorage),
-// });
 
 const client = new ApolloClient({
+    ssrMode: true,
     uri: "https://graphql-pokeapi.graphcdn.app/",
     cache: new InMemoryCache(),
 });

@@ -1,15 +1,20 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-
+import { useCallback, useRef } from "react";
 import Link from "next/link";
-
 import { useQuery } from "@apollo/client";
 import { GET_POKEMONS } from "../../graphql/query";
-import Image from "next/image";
 
-import styles from "./Card.module.css";
+import Image from "next/image";
+import OwnedTotal from "../owned-total/OwnedTotal";
+
+import {
+  ListContainer,
+  PokemonCard,
+  PokemonName,
+  DetailButton,
+} from "./PokemonsList.styles";
 
 const PokemonsList = () => {
-  const { data, loading, error, fetchMore } = useQuery(GET_POKEMONS, {
+  const { data, loading, fetchMore } = useQuery(GET_POKEMONS, {
     variables: { limit: 20, offset: 0 },
   });
 
@@ -39,50 +44,37 @@ const PokemonsList = () => {
     [loading, nextOffset]
   );
 
-  // useEffect(() => {
-  //   if (!loading && data) {
-  //     setPokemons((prevList) => [...prevList, ...data.pokemons.results]);
-  //   } else {
-  //     setPokemons((prevList) => [...prevList]);
-  //   }
-  // }, [offset, data]);
-
   if (loading) return null;
   const pokemons = data.pokemons.results;
 
   return (
-    <div className={styles.container}>
+    <ListContainer>
       {pokemons.map(({ id, name, image }, index) => {
         if (pokemons.length === index + 1) {
           return (
-            <a key={id} className={styles.items} ref={lastPokemonEl}>
+            <PokemonCard key={id} ref={lastPokemonEl}>
               <Image src={image} width={140} height={140} />
-              <h2 className={styles.name}>{name}</h2>
-              <p className={styles.catchText}>
-                You own 0 <span className={styles.name}>{name}</span>
-              </p>
+              <PokemonName>{name}</PokemonName>
+              <OwnedTotal name={name} />
               <Link href={`/pokemon/${name}`}>
-                <button className={styles.button}>Detail</button>
+                <DetailButton>Detail</DetailButton>
               </Link>
-            </a>
+            </PokemonCard>
           );
         } else {
           return (
-            <a key={id} className={styles.items}>
+            <PokemonCard key={id}>
               <Image src={image} width={140} height={140} />
-              <h2 className={styles.name}>{name}</h2>
-              <p className={styles.catchText}>
-                You own 0 <span className={styles.name}>{name}</span>
-              </p>
+              <PokemonName>{name}</PokemonName>
+              <OwnedTotal name={name} />
               <Link href={`/pokemon/${name}`}>
-                <button className={styles.button}>Detail</button>
+                <DetailButton>Detail</DetailButton>
               </Link>
-            </a>
+            </PokemonCard>
           );
         }
       })}
-      {/* <button onClick={() => setOffset((prev) => prev + 20)}>Fetch more</button> */}
-    </div>
+    </ListContainer>
   );
 };
 

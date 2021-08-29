@@ -1,21 +1,24 @@
 import Link from "next/link";
-import navbarStyles from "./Navbar.module.css";
+import { useRouter } from "next/router";
+import { NavContainer, ListContainer, ListItem } from "./Navbar.styles";
 
 const Navbar = () => {
+  const router = useRouter();
+
   return (
-    <nav className={navbarStyles.nav}>
-      <ul>
-        <li>
+    <NavContainer>
+      <ListContainer>
+        <ListItem active={router.pathname === "/"}>
           <Link href="/">Home</Link>
-        </li>
-        <li>
+        </ListItem>
+        <ListItem active={router.pathname === "/pokemons"}>
           <Link href="/pokemons">Pokemons</Link>
-        </li>
-        <li>
+        </ListItem>
+        <ListItem active={router.pathname === "/my-pokemons"}>
           <Link href="/my-pokemons">My Pokemons</Link>
-        </li>
-      </ul>
-    </nav>
+        </ListItem>
+      </ListContainer>
+    </NavContainer>
   );
 };
 
