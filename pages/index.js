@@ -1,57 +1,63 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Link from "next/link"
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+
+import {
+  HomeContainer,
+  MainContainer,
+  PageHeadline,
+  SiteHighlight,
+  PageDescription,
+  PokemonsContainer,
+  PokemonItem,
+  PokemonName,
+  FindText,
+} from "../styles/Home.styles";
 
 //GraphQL
 import client from "../apollo-client";
-import { GET_POKEMONS } from '../graphql/query';
+import { GET_POKEMONS } from "../graphql/query";
 
 export default function Home({ pokemons }) {
   return (
-    <div className={styles.container}>
+    <HomeContainer>
       <Head>
         <title>The Pokedex</title>
         <meta name="description" content="Pokedex - The Pokemon Database" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a>The Pokedex!</a>
-        </h1>
+      <MainContainer>
+        <PageHeadline>
+          Welcome to <SiteHighlight>The Pokedex!</SiteHighlight>
+        </PageHeadline>
 
-        <p className={styles.description}>
-          Here's our Pokemons of the Day
-        </p>
-        <div className={styles.grid}>
-          {
-            pokemons.map(({ id, name, url, image }) => (
-              <Link key={id} href={`/pokemon/${name}`}>
-                <div className={styles.card}>
-                  <Image src={image} width={150} height={150} />
-                  <h2 className={styles.name}>{name}</h2>
-                </div>
-              </Link>
-            ))
-          }
-        </div>
-        <h4 className={styles.viewText}>
+        <PageDescription>Here's our Pokemons of the Day</PageDescription>
+        <PokemonsContainer>
+          {pokemons.map(({ id, name, image }) => (
+            <Link key={id} href={`/pokemon/${name}`}>
+              <PokemonItem>
+                <Image src={image} width={150} height={150} />
+                <PokemonName>{name}</PokemonName>
+              </PokemonItem>
+            </Link>
+          ))}
+        </PokemonsContainer>
+        <FindText>
           <Link href="/pokemons">Find out all the Pokemons &rarr;</Link>
-        </h4>
-
-      </div>
-    </div>
-  )
+        </FindText>
+      </MainContainer>
+    </HomeContainer>
+  );
 }
 
 export async function getServerSideProps() {
-  const date = new Date().getDate()
-  const month = new Date().getMonth()
-  const todayPokemon = date * month * 3
+  const date = new Date().getDate();
+  const month = new Date().getMonth();
+  const todayPokemon = date * month * 3;
   const { data } = await client.query({
     query: GET_POKEMONS,
-    variables: { limit: 6, offset: todayPokemon }
+    variables: { limit: 6, offset: todayPokemon },
   });
 
   return {
@@ -60,5 +66,3 @@ export async function getServerSideProps() {
     },
   };
 }
-
-

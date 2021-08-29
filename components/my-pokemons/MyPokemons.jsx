@@ -33,8 +33,6 @@ const MyPokemons = () => {
     });
   };
 
-  console.log(data);
-
   return (
     <>
       {myPokemons.length ? (

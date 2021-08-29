@@ -33,14 +33,8 @@ export const PokemonCard = styled.div`
     transition: color 0.15s ease, border-color 0.15s ease;
     width: 200px;
     height: 340px;
-    &:hover{
-    color: #0070f3;
-    border-color: #0070f3;
-    }
-    &:focus{
-    color: #0070f3;
-    border-color: #0070f3;
-    }
+    &:hover,
+    &:focus,
     &:active{
     color: #0070f3;
     border-color: #0070f3;
